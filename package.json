@@ -1,0 +1,21 @@
+{
+  "name": "api-demo",
+  "version": "1.0.0",
+  "description": "demo for API testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.4",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.4.13",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.10"
+  }
+}
