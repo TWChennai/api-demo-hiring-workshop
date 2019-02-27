@@ -1,0 +1,40 @@
+{
+	"info": {
+		"_postman_id": "847749c2-c66e-4a89-acfd-2fb0c68d5ae7",
+		"name": "E-Commerce Sample",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "User - Signup",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"simple@test.com\",\n    \"password\": \"!abcd1234\"\n}\n"
+						},
+						"url": {
+							"raw": "{{base-url}}:{{port}}/signup",
+							"host": [
+								"{{base-url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"signup"
+							]
+						},
+						"description": "Posts actions"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
