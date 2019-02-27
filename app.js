@@ -8,6 +8,11 @@ const productRoutes = require('./api/routes/products')
 const orderRoutes = require('./api/routes/orders')
 const userRoutes = require('./api/routes/user')
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger/routes.json');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 mongoose.connect('mongodb://mongo/api_demo', { useNewUrlParser: true } )
 
 app.use(morgan('dev'))
