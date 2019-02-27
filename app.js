@@ -8,7 +8,7 @@ const productRoutes = require('./api/routes/products')
 const orderRoutes = require('./api/routes/orders')
 const userRoutes = require('./api/routes/user')
 
-mongoose.connect('mongodb://mongo/api_demo', { useNewUrlParser: true } )
+mongoose.connect('mongodb://localhost/api_demo', { useNewUrlParser: true } )
 
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: false}))

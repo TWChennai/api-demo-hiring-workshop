@@ -4,8 +4,8 @@ const mongoose = require('mongoose')
 
 exports.orders_get_all = (req, res, next) => {
     Order.find()
-        .select('product quantity _id')
-        .populate('product', 'name')
+        .select('products _id')
+        .populate('product')
         .exec()
         .then(docs => {
             res.status(200).json({
@@ -13,8 +13,7 @@ exports.orders_get_all = (req, res, next) => {
                 orders: docs.map(doc => {
                     return {
                         _id: doc._id,
-                        product: doc.product,
-                        quantity: doc.quantity,
+                        products: doc.products,
                         request: {
                             type: 'GET',
                             url: 'http://localhost:3000/orders/' + doc._id
@@ -29,7 +28,7 @@ exports.orders_get_all = (req, res, next) => {
 },
 
     exports.orders_create_order = (req, res, next) => {
-	    req.body.products.map( id => {Product.findById(id)
+	    req.body.products.map( product => {Product.findById(product.id)
             .then(product => {
                 if (!product) {
                     return res.status(404).json({
@@ -39,8 +38,7 @@ exports.orders_get_all = (req, res, next) => {
             })});
 	    const order = new Order({
 		    _id: mongoose.Types.ObjectId(),
-		    quantity: req.body.quantity,
-		    product: req.body.products
+		    products: req.body.products
 	    })
         order
 		    .save()
@@ -49,8 +47,7 @@ exports.orders_get_all = (req, res, next) => {
                     message: 'Order stored',
                     createdOrder: {
                         _id: result._id,
-                        product: result.product,
-                        quantity: result.quantity
+                        products: result.products,
                     },
                     request: {
                         type: 'GET',
@@ -64,7 +61,7 @@ exports.orders_get_all = (req, res, next) => {
     }
 exports.orders_get_byId = (req, res, next) => {
     Order.findById(req.params.orderId)
-        .select('product quantity _id')
+        .select('products _id')
         .populate('product')
         .exec()
         .then(order => {
@@ -118,6 +115,7 @@ exports.orders_update_order = (req, res, next) => {
 						message: 'Product not found'
 					})
 				}
+				
 			})});
 		order.product.push(req.body.products)
 		order.save()
