@@ -5,7 +5,9 @@ const mongoose = require('mongoose')
 exports.orders_get_all = (req, res, next) => {
     Order.find()
         .select('products _id')
-        .populate('product')
+        .populate({
+	        path: 'products.id',
+	        model: 'Product'})
         .exec()
         .then(docs => {
             res.status(200).json({
@@ -62,7 +64,9 @@ exports.orders_get_all = (req, res, next) => {
 exports.orders_get_byId = (req, res, next) => {
     Order.findById(req.params.orderId)
         .select('products _id')
-        .populate('product')
+        .populate({
+	        path: 'products.id',
+	        model: 'Product'})
         .exec()
         .then(order => {
             if (!order) {
