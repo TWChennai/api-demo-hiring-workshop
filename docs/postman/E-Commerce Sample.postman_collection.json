@@ -15,24 +15,484 @@
 							"type": "noauth"
 						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"simple@test.com\",\n    \"password\": \"!abcd1234\"\n}\n"
+							"raw": "{\"email\": \"simple.test@test.com\",\n    \"password\": \"!abcd1234\"\n}\n"
 						},
 						"url": {
-							"raw": "{{base-url}}:{{port}}/signup",
+							"raw": "{{base-url}}:{{port}}/user/signup",
 							"host": [
 								"{{base-url}}"
 							],
 							"port": "{{port}}",
 							"path": [
+								"user",
 								"signup"
 							]
 						},
 						"description": "Posts actions"
 					},
 					"response": []
+				},
+				{
+					"name": "User - Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"simple.test@test.com\",\n    \"password\": \"!abcd1234\"\n}\n"
+						},
+						"url": {
+							"raw": "{{base-url}}:{{port}}/user/login",
+							"host": [
+								"{{base-url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"user",
+								"login"
+							]
+						},
+						"description": "Posts actions"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "Get products",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpbXBsZS50ZXN0QHRlc3QuY29tIiwidXNlcklkIjoiNWM3NmM0ZTc2NDNkYWMwMDIwZDBlMjYxIiwiaWF0IjoxNTUxMjg3NjA0LCJleHAiOjE1NTEyOTEyMDR9.fIOPvzjDpsnoClEV6SPTzaoQQhGT0EbGEr9Odljd06s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base-url}}:{{port}}/products/",
+							"host": [
+								"{{base-url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"products",
+								""
+							]
+						},
+						"description": "Posts actions"
+					},
+					"response": []
+				},
+				{
+					"name": "Creat products",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpbXBsZS50ZXN0QHRlc3QuY29tIiwidXNlcklkIjoiNWM3NmM0ZTc2NDNkYWMwMDIwZDBlMjYxIiwiaWF0IjoxNTUxMjg3NjA0LCJleHAiOjE1NTEyOTEyMDR9.fIOPvzjDpsnoClEV6SPTzaoQQhGT0EbGEr9Odljd06s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"item2\",\n        \"price\": 25.00}"
+						},
+						"url": {
+							"raw": "{{base-url}}:{{port}}/products/",
+							"host": [
+								"{{base-url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"products",
+								""
+							]
+						},
+						"description": "Posts actions"
+					},
+					"response": []
+				},
+				{
+					"name": "Get single product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpbXBsZS50ZXN0QHRlc3QuY29tIiwidXNlcklkIjoiNWM3NmM0ZTc2NDNkYWMwMDIwZDBlMjYxIiwiaWF0IjoxNTUxMjg3NjA0LCJleHAiOjE1NTEyOTEyMDR9.fIOPvzjDpsnoClEV6SPTzaoQQhGT0EbGEr9Odljd06s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base-url}}:{{port}}/products/5c76c653643dac0020d0e263",
+							"host": [
+								"{{base-url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"products",
+								"5c76c653643dac0020d0e263"
+							]
+						},
+						"description": "Posts actions"
+					},
+					"response": []
+				},
+				{
+					"name": "Update product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpbXBsZS50ZXN0QHRlc3QuY29tIiwidXNlcklkIjoiNWM3NmM0ZTc2NDNkYWMwMDIwZDBlMjYxIiwiaWF0IjoxNTUxMjg3NjA0LCJleHAiOjE1NTEyOTEyMDR9.fIOPvzjDpsnoClEV6SPTzaoQQhGT0EbGEr9Odljd06s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[{\"propsName\": \"name\",\n        \"value\": \"item1Update\"},{\"propsName\": \"price\",\n        \"value\": 25.01}]"
+						},
+						"url": {
+							"raw": "{{base-url}}:{{port}}/products/5c76c653643dac0020d0e263",
+							"host": [
+								"{{base-url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"products",
+								"5c76c653643dac0020d0e263"
+							]
+						},
+						"description": "Posts actions"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpbXBsZS50ZXN0QHRlc3QuY29tIiwidXNlcklkIjoiNWM3NmM0ZTc2NDNkYWMwMDIwZDBlMjYxIiwiaWF0IjoxNTUxMjg3NjA0LCJleHAiOjE1NTEyOTEyMDR9.fIOPvzjDpsnoClEV6SPTzaoQQhGT0EbGEr9Odljd06s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base-url}}:{{port}}/products/5c76c98102a2e9002029bbf7",
+							"host": [
+								"{{base-url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"products",
+								"5c76c98102a2e9002029bbf7"
+							]
+						},
+						"description": "Posts actions"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "Get orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpbXBsZS50ZXN0QHRlc3QuY29tIiwidXNlcklkIjoiNWM3NmM0ZTc2NDNkYWMwMDIwZDBlMjYxIiwiaWF0IjoxNTUxMjg3NjA0LCJleHAiOjE1NTEyOTEyMDR9.fIOPvzjDpsnoClEV6SPTzaoQQhGT0EbGEr9Odljd06s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base-url}}:{{port}}/orders/",
+							"host": [
+								"{{base-url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"orders",
+								""
+							]
+						},
+						"description": "Posts actions"
+					},
+					"response": []
+				},
+				{
+					"name": "Creat orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpbXBsZS50ZXN0QHRlc3QuY29tIiwidXNlcklkIjoiNWM3NmM0ZTc2NDNkYWMwMDIwZDBlMjYxIiwiaWF0IjoxNTUxMjg3NjA0LCJleHAiOjE1NTEyOTEyMDR9.fIOPvzjDpsnoClEV6SPTzaoQQhGT0EbGEr9Odljd06s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"products\" : [{\n\"id\": \"5c76c653643dac0020d0e263\"\n}]\n}"
+						},
+						"url": {
+							"raw": "{{base-url}}:{{port}}/orders/",
+							"host": [
+								"{{base-url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"orders",
+								""
+							]
+						},
+						"description": "Posts actions"
+					},
+					"response": []
+				},
+				{
+					"name": "Get single product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpbXBsZS50ZXN0QHRlc3QuY29tIiwidXNlcklkIjoiNWM3NmM0ZTc2NDNkYWMwMDIwZDBlMjYxIiwiaWF0IjoxNTUxMjg3NjA0LCJleHAiOjE1NTEyOTEyMDR9.fIOPvzjDpsnoClEV6SPTzaoQQhGT0EbGEr9Odljd06s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base-url}}:{{port}}/products/5c76c653643dac0020d0e263",
+							"host": [
+								"{{base-url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"products",
+								"5c76c653643dac0020d0e263"
+							]
+						},
+						"description": "Posts actions"
+					},
+					"response": []
+				},
+				{
+					"name": "Update product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpbXBsZS50ZXN0QHRlc3QuY29tIiwidXNlcklkIjoiNWM3NmM0ZTc2NDNkYWMwMDIwZDBlMjYxIiwiaWF0IjoxNTUxMjg3NjA0LCJleHAiOjE1NTEyOTEyMDR9.fIOPvzjDpsnoClEV6SPTzaoQQhGT0EbGEr9Odljd06s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[{\"propsName\": \"name\",\n        \"value\": \"item1Update\"},{\"propsName\": \"price\",\n        \"value\": 25.01}]"
+						},
+						"url": {
+							"raw": "{{base-url}}:{{port}}/api-docs/",
+							"host": [
+								"{{base-url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api-docs",
+								""
+							]
+						},
+						"description": "Posts actions"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpbXBsZS50ZXN0QHRlc3QuY29tIiwidXNlcklkIjoiNWM3NmM0ZTc2NDNkYWMwMDIwZDBlMjYxIiwiaWF0IjoxNTUxMjg3NjA0LCJleHAiOjE1NTEyOTEyMDR9.fIOPvzjDpsnoClEV6SPTzaoQQhGT0EbGEr9Odljd06s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base-url}}:{{port}}/products/5c76c98102a2e9002029bbf7",
+							"host": [
+								"{{base-url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"products",
+								"5c76c98102a2e9002029bbf7"
+							]
+						},
+						"description": "Posts actions"
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5adb2469-eba2-407e-b867-377f9bad2224",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "74ce1aa7-8131-44ba-b673-a24704b99a6e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}
