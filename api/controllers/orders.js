@@ -112,23 +112,32 @@ exports.orders_update_order = (req, res, next) => {
 				message: 'order not found'
 			})
 		}
-		req.body.products.map( id => {Product.findById(id)
-			.then(product => {
-				if (!product) {
+		return order
+	}).then(order => {
+			req.body.products.map(product => {
+				let mon_product = Product.findById(product['id'])
+				if (!mon_product) {
 					return res.status(404).json({
 						message: 'Product not found'
 					})
 				}
+				let count = order.products.filter(orderProduct => product['id'] == orderProduct['id'])
+				if (count.length > 0) {
+					let ref_product = order.products.find(orderProduct => product['id'] == orderProduct['id'])
+					ref_product.quantity = ref_product.quantity + product.quantity
+				} else {
+					order.products.append(product)
+				}
 				
-			})});
-		order.product.push(req.body.products)
-		order.save()
+			})
+			return order
+		}
+	).then(order => order.save().then(
 		res.status(200).json({
 			order,
 			request: {
 				type: 'GET',
 				url: 'http://localhost:3000/orders'
 			}
-		})
-	})
+		})))
 }
