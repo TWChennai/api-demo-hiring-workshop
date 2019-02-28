@@ -18,7 +18,7 @@
   "paths": {
     "/user/signup": {
       "post": {
-        "summary": "Add a new user to the store",
+        "summary": "Add a new user",
         "description": "",
         "consumes": [
           "application/json"
@@ -78,7 +78,7 @@
                 },
                 "token": {
                   "type": "string",
-                  "example": "Jessica Smith"
+                  "example": "uasbd983sdjjksd89qenan"
                 }
               }
             }
@@ -133,9 +133,6 @@
                 "$ref": "#/definitions/Product"
               }
             }
-          },
-          "405": {
-            "description": "Invalid input"
           }
         }
       }
@@ -165,8 +162,8 @@
               "$ref": "#/definitions/Product"
             }
           },
-          "405": {
-            "description": "Invalid input"
+          "404": {
+            "description": "Product not found"
           }
         }
       },
@@ -241,12 +238,147 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Product"
+                "$ref": "#/definitions/Order"
               }
             }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create order",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "products": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "quantity": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Order created"
+          }
+        }
+      }
+    },
+    "/order/{orderId}": {
+      "get": {
+        "summary": "Get one order",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete order by ID",
+        "produces": [
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order deleted"
           },
-          "405": {
-            "description": "Invalid input"
+          "404": {
+            "description": "Order not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update order",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "products": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "quantity": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order updated"
           }
         }
       }
@@ -296,7 +428,16 @@
         "products": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Product"
+            "type": "object",
+            "properties": {
+              "product": {
+                "$ref": "#/definitions/Product"
+              },
+              "quantity": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
           }
         }
       }
