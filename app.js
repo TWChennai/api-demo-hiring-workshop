@@ -9,7 +9,7 @@ const orderRoutes = require('./api/routes/orders')
 const userRoutes = require('./api/routes/user')
 
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger/routes.json');
+const swaggerDocument = require('./swagger/swagger.json');
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
