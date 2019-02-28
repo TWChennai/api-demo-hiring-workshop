@@ -12,4 +12,7 @@ docker-compose up
 
 This is a simple nodejs app with mongodb.  Exposes API in the port 3000.
 
-For more details on the API refer swagger here [To be added]
+Api documentation with swagger:
+```
+http://localhost:3000//api-docs
+```
