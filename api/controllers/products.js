@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 exports.products_get_all = (req, res, next) => {
     Product.find()
-    .select('name price _id')
+    .select('name price soldBy stock _id')
     .exec()
     .then(docs =>{
         const respone = {
@@ -12,6 +12,8 @@ exports.products_get_all = (req, res, next) => {
                 return {
                     name: doc.name,
                     price: doc.price,
+                    soldBy: doc.soldBy,
+                    stock: doc.stock,
                     _id: doc._id,
                     request: {
                         type: 'GET',
@@ -33,7 +35,9 @@ exports.products_create_product = (req, res, next) => {
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        price: req.body.price
+        price: req.body.price,
+        soldBy: req.body.soldBy,
+        stock: req.body.stock
     })
     product.save().then(result => {
         console.log(result)
@@ -42,6 +46,8 @@ exports.products_create_product = (req, res, next) => {
             createdProduct: {
                 name: result.name,
                 price: result.price,
+	            soldBy: result.soldBy,
+	            stock: result.stock,
                 _id: result._id,
                 request: {
                     type: 'GET',
@@ -58,7 +64,7 @@ exports.products_create_product = (req, res, next) => {
 exports.product_get_product = (req, res, next) => {
     const id = req.params.productId
     Product.findById(id)
-    .select('name price id')
+    .select('name price soldBy stock id')
     .exec()
     .then(doc => {
         console.log(doc)
@@ -67,7 +73,7 @@ exports.product_get_product = (req, res, next) => {
             .json(doc)
         } else {
             res.status(404).json({
-                message: "no valid entry found"
+                message: "No valid entry found"
             })
         }
         
@@ -88,7 +94,7 @@ exports.products_update_product =  (req, res, next) => {
     .exec()
     .then(result => {
         res.status(200).json({
-            message: 'product Updated',
+            message: 'Product updated',
             request: {
                 type: 'GET',
                 url: 'http://localhost:3000/products/'+id
@@ -109,7 +115,7 @@ exports.products_delete_product = (req, res, next) => {
     .exec()
     .then(result => {
         res.status(200).json({
-            message: 'product deleted',
+            message: 'Product deleted',
             type: 'POST',
             url: 'http://localhost:3000/products',
             body: { name: 'String', price: 'Number '}
