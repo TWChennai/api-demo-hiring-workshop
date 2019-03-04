@@ -30,32 +30,53 @@ exports.orders_get_all = (req, res, next) => {
 },
 
     exports.orders_create_order = (req, res, next) => {
+	    productIds = []
+	    
 	    req.body.products.map( product => {
-          product = Product.find({productId: product.productId})
-                if (!product) {
-                    return res.status(404).json({
-                        message: 'Product not found'
-                    })
-                }
-            });
+		    Product.find({productId: product.productId}).select('productId')
+			    .exec().then(mon_product => {
+			    if (!mon_product) {
+				    return res.status(404).json({
+					    message: 'Product not found'
+				    })
+			    }
+			    productIds.push(product.productId)
+		    })
+	    });
+	    
 	    const order = new Order({
 		    orderId: mongoose.Types.ObjectId(),
 		    products: req.body.products
 	    })
-        order
+     
+	    order
 		    .save()
             .then(result => {
-                res.status(201).json({
-                    message: 'Order stored',
-                    createdOrder: {
-                        orderId: result.orderId,
-                        products: result.products,
-                    },
-                    request: {
-                        type: 'GET',
-                        url: 'http://localhost:3000/orders/' + result.orderId
-                    }
-                })
+	            Product.find({'productId': productIds})
+		            .select('name price soldBy stock productId')
+		            .exec()
+		            .then(products => {
+			            products.map(product1 => {
+				            let orderProduct = order.products.filter(orderProduct =>
+					            product1['productId'].equals(orderProduct['productId'])
+				            )
+				            product1.stock -= orderProduct[0]['quantity']
+				            product1.save()
+			            })
+			
+			            res.status(201).json({
+				            message: 'Order stored',
+				            createdOrder: {
+					            orderId: result.orderId,
+					            products: result.products,
+				            },
+				            request: {
+					            type: 'GET',
+					            url: 'http://localhost:3000/orders/' + result.orderId
+				            }
+			            })
+		            })
+	            
             })
             .catch(err => {
                 res.status(500).json(err)
