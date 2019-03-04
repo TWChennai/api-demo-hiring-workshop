@@ -123,11 +123,6 @@
       "get": {
         "summary": "Get all products",
         "description": "",
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -247,7 +242,7 @@
         }
       }
     },
-    "/order": {
+    "/orders": {
       "get": {
         "summary": "Get all orders",
         "security": [
@@ -321,7 +316,7 @@
         }
       }
     },
-    "/order/{orderId}": {
+    "/orders/{orderId}": {
       "get": {
         "summary": "Get one order",
         "security": [
