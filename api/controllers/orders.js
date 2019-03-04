@@ -4,9 +4,9 @@ const mongoose = require('mongoose')
 
 exports.orders_get_all = (req, res, next) => {
     Order.find()
-        .select('products _id')
+        .select('products orderId')
         .populate({
-	        path: 'products.id',
+	        path: 'products.productId',
 	        model: 'Product'})
         .exec()
         .then(docs => {
@@ -14,11 +14,11 @@ exports.orders_get_all = (req, res, next) => {
                 count: docs.length,
                 orders: docs.map(doc => {
                     return {
-                        _id: doc._id,
+	                    orderId: doc.orderId,
                         products: doc.products,
                         request: {
                             type: 'GET',
-                            url: 'http://localhost:3000/orders/' + doc._id
+                            url: 'http://localhost:3000/orders/' + doc.orderId
                         }
                     }
                 }),
@@ -30,16 +30,16 @@ exports.orders_get_all = (req, res, next) => {
 },
 
     exports.orders_create_order = (req, res, next) => {
-	    req.body.products.map( product => {Product.findById(product.id)
-            .then(product => {
+	    req.body.products.map( product => {
+          product = Product.find({productId: product.productId})
                 if (!product) {
                     return res.status(404).json({
                         message: 'Product not found'
                     })
                 }
-            })});
+            });
 	    const order = new Order({
-		    _id: mongoose.Types.ObjectId(),
+		    orderId: mongoose.Types.ObjectId(),
 		    products: req.body.products
 	    })
         order
@@ -48,12 +48,12 @@ exports.orders_get_all = (req, res, next) => {
                 res.status(201).json({
                     message: 'Order stored',
                     createdOrder: {
-                        _id: result._id,
+                        orderId: result.orderId,
                         products: result.products,
                     },
                     request: {
                         type: 'GET',
-                        url: 'http://localhost:3000/orders/' + result._id
+                        url: 'http://localhost:3000/orders/' + result.orderId
                     }
                 })
             })
@@ -62,10 +62,10 @@ exports.orders_get_all = (req, res, next) => {
             })
     }
 exports.orders_get_byId = (req, res, next) => {
-    Order.findById(req.params.orderId)
-        .select('products _id')
+    Order.find({orderId: req.params.orderId})
+        .select('products orderId')
         .populate({
-	        path: 'products.id',
+	        path: 'products.productId',
 	        model: 'Product'})
         .exec()
         .then(order => {
@@ -88,7 +88,7 @@ exports.orders_get_byId = (req, res, next) => {
 }
 
 exports.orders_delete_order = (req, res, next) => {
-    Order.remove({ _id: req.params.orderId })
+    Order.remove({ orderId: req.params.orderId })
         .exec()
         .then(result => {
             res.status(200).json({
@@ -106,7 +106,7 @@ exports.orders_delete_order = (req, res, next) => {
 }
 
 exports.orders_update_order = (req, res, next) => {
-	Order.findById(req.params.orderId).then(order => {
+	Order.find({orderId: req.params.orderId}).then(order => {
 		if (!order) {
 			return res.status(404).json({
 				message: 'order not found'
@@ -115,15 +115,15 @@ exports.orders_update_order = (req, res, next) => {
 		return order
 	}).then(order => {
 			req.body.products.map(product => {
-				let mon_product = Product.findById(product['id'])
+				let mon_product = Product.find({productId: product['productId']})
 				if (!mon_product) {
 					return res.status(404).json({
 						message: 'Product not found'
 					})
 				}
-				let count = order.products.filter(orderProduct => product['id'] == orderProduct['id'])
+				let count = order.products.filter(orderProduct => product['productId'] == orderProduct['productId'])
 				if (count.length > 0) {
-					let ref_product = order.products.find(orderProduct => product['id'] == orderProduct['id'])
+					let ref_product = order.products.find(orderProduct => product['productId'] == orderProduct['productId'])
 					ref_product.quantity = ref_product.quantity + product.quantity
 				} else {
 					order.products.append(product)
