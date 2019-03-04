@@ -3,7 +3,7 @@ var mongodb = require('mongoose')
 const Product = require('../api/models/products')
 
 module.exports.up = function (next) {
-	mongodb.connect('mongodb://localhost/api_demo', {useNewUrlParser: true})
+	mongodb.connect('mongodb://mongo/api_demo', {useNewUrlParser: true})
 		.then(() => {
 			let products = [{
 				"name": "TV",
