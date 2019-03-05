@@ -46,7 +46,7 @@ exports.orders_get_all = (req, res, next) => {
 	    req.body.products.map( product => {
 		    Product.find({productId: product.productId}).select('productId quantity')
 			    .exec().then(mon_product => {
-			    if (!mon_product) {
+			    if (mon_product.length === 0) {
 				    return res.status(404).json({
 					    message: 'Product not found'
 				    })
