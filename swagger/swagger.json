@@ -3,15 +3,7 @@
   "info": {
     "description": "",
     "version": "1.0.0",
-    "title": "Retail Store",
-    "termsOfService": "http://swagger.io/terms/",
-    "contact": {
-      "email": "apiteam@swagger.io"
-    },
-    "license": {
-      "name": "Apache 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-    }
+    "title": "Retail Store"
   },
   "host": "localhost:3000",
   "basePath": "/",
@@ -228,7 +220,23 @@
             "description": "Updated product object",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Product"
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "example": [
+                  {
+                    "stock": 200
+                  },
+                  {
+                    "name": "TV"
+                  }
+                ]
+              }
             }
           }
         ],
