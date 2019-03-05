@@ -3,19 +3,30 @@ const Product = require('../models/products')
 const mongoose = require('mongoose')
 
 exports.orders_get_all = (req, res, next) => {
-    Order.find()
-        .select('products orderId')
-        .populate({
-	        path: 'products.productId',
-	        model: 'Product'})
-        .exec()
+	Order.aggregate([{
+			$lookup: {
+				from: "products",
+				localField: "products.productId",
+				foreignField: "productId",
+				as: "productDetails"
+			}
+		},
+			{
+				$project: {
+					"orderId": 1,
+					"productDetails.productId": 1,
+					"productDetails.name": 1,
+					"productDetails.price": 1,
+					"productDetails.soldBy": 1
+				}
+			}])
         .then(docs => {
             res.status(200).json({
                 count: docs.length,
                 orders: docs.map(doc => {
                     return {
 	                    orderId: doc.orderId,
-                        products: doc.products,
+	                    products: doc.productDetails,
                         request: {
                             type: 'GET',
                             url: 'http://localhost:3000/orders/' + doc.orderId
@@ -33,11 +44,18 @@ exports.orders_get_all = (req, res, next) => {
 	    productIds = []
 	    
 	    req.body.products.map( product => {
-		    Product.find({productId: product.productId}).select('productId')
+		    Product.find({productId: product.productId}).select('productId quantity')
 			    .exec().then(mon_product => {
 			    if (!mon_product) {
 				    return res.status(404).json({
 					    message: 'Product not found'
+				    })
+			    }
+			    if( mon_product.quantity < product.quantity){
+				    return res.status(412).json({
+					    product: product.productId,
+					    message: 'Stock unavailable',
+					    stockAvailable: mon_product.quantity
 				    })
 			    }
 			    productIds.push(product.productId)
@@ -82,13 +100,30 @@ exports.orders_get_all = (req, res, next) => {
                 res.status(500).json(err)
             })
     }
+
 exports.orders_get_byId = (req, res, next) => {
-    Order.find({orderId: req.params.orderId})
-        .select('products orderId')
-        .populate({
-	        path: 'products.productId',
-	        model: 'Product'})
-        .exec()
+	Order.aggregate([
+			{
+				$match: {"orderId": new mongoose.Types.ObjectId(req.params.orderId)}
+			},
+			{
+				$lookup: {
+					from: "products",
+					localField: "products.productId",
+					foreignField: "productId",
+					as: "productDetails"
+				}
+			},
+			{
+				$project: {
+					"_id": 0,
+					"orderId": 1,
+					"productDetails.productId": 1,
+					"productDetails.name": 1,
+					"productDetails.price": 1,
+					"productDetails.soldBy": 1
+				}
+			}])
         .then(order => {
             if (!order) {
                 return res.status(404).json({
