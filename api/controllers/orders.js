@@ -41,64 +41,69 @@ exports.orders_get_all = (req, res, next) => {
 },
 
     exports.orders_create_order = (req, res, next) => {
-	    productIds = []
-	    
+	    let productIds = []
+	    let productDict = {}
 	    req.body.products.map( product => {
-		    Product.find({productId: product.productId}).select('productId quantity')
-			    .exec().then(mon_product => {
-			    if (mon_product.length === 0) {
-				    return res.status(404).json({
-					    message: 'Product not found'
-				    })
-			    }
-			    if( mon_product.quantity < product.quantity){
-				    return res.status(412).json({
-					    product: product.productId,
-					    message: 'Stock unavailable',
-					    stockAvailable: mon_product.quantity
-				    })
-			    }
-			    productIds.push(product.productId)
-		    })
+		    productIds.push(product.productId)
+		    productDict[product.productId] = product.quantity
 	    });
-	    
-	    const order = new Order({
-		    orderId: mongoose.Types.ObjectId(),
-		    products: req.body.products
-	    })
-     
-	    order
-		    .save()
-            .then(result => {
-	            Product.find({'productId': productIds})
-		            .select('name price soldBy stock productId')
-		            .exec()
-		            .then(products => {
-			            products.map(product1 => {
-				            let orderProduct = order.products.filter(orderProduct =>
-					            product1['productId'].equals(orderProduct['productId'])
-				            )
-				            product1.stock -= orderProduct[0]['quantity']
-				            product1.save()
-			            })
-			
-			            res.status(201).json({
-				            message: 'Order stored',
-				            createdOrder: {
-					            orderId: result.orderId,
-					            products: result.products,
-				            },
-				            request: {
-					            type: 'GET',
-					            url: 'http://localhost:3000/orders/' + result.orderId
-				            }
-			            })
-		            })
-	            
-            })
-            .catch(err => {
-                res.status(500).json(err)
-            })
+	
+	    Product.find({productId: productIds})
+		    .select('name price soldBy stock productId')
+		    .exec()
+		    .then(products => {
+			    if (products.length < productIds.length) {
+				    throw  {
+					    code: 404,
+					    message: "Product not found"
+				    }
+			    }
+			    products.map(product => {
+				    if (product.stock < productDict[product.productId]) {
+					    throw  {
+						    code: 412,
+						    message: {
+							    product: product.productId,
+							    message: 'Stock unavailable, Order only how much is available',
+							    stockAvailable: product.stock
+						    }
+					    }
+				    }
+			    })
+			    return products
+		    }).then(products => {
+			    const order = new Order({
+				    orderId: mongoose.Types.ObjectId(),
+				    products: req.body.products
+			    })
+			    order
+				    .save()
+				    .then(result => {
+					    products.map(product1 => {
+						    let orderProduct = order.products.filter(orderProduct =>
+							    product1['productId'].equals(orderProduct['productId'])
+						    )
+						    product1.stock -= orderProduct[0]['quantity']
+						    product1.save()
+					    })
+					
+					    return res.status(201).json({
+						    message: 'Order stored',
+						    createdOrder: {
+							    orderId: result.orderId,
+							    products: result.products,
+						    },
+						    request: {
+							    type: 'GET',
+							    url: 'http://localhost:3000/orders/' + result.orderId
+						    }
+					    })
+				    })
+		    })
+		    .catch((err) => {
+			    return res.status(err.code).json(err.message)
+		    })
+	
     }
 
 exports.orders_get_byId = (req, res, next) => {
@@ -162,38 +167,73 @@ exports.orders_delete_order = (req, res, next) => {
 }
 
 exports.orders_update_order = (req, res, next) => {
-	Order.find({orderId: req.params.orderId}).then(order => {
+	let productIds = []
+	let productDict = {}
+	req.body.products.map(product => {
+		productIds.push(product.productId)
+		productDict[product.productId] = product.quantity
+	});
+	
+	Order.find({orderId: req.params.orderId}).select('orderId products').exec().then(order => {
 		if (!order) {
 			return res.status(404).json({
-				message: 'order not found'
+				message: 'Order not found'
 			})
 		}
-		return order
+		return order[0]
 	}).then(order => {
-			req.body.products.map(product => {
-				let mon_product = Product.find({productId: product['productId']})
-				if (!mon_product) {
-					return res.status(404).json({
-						message: 'Product not found'
-					})
+		let outer_products = []
+		Product.find({productId: productIds})
+			.select('name price soldBy stock productId')
+			.exec()
+			.then(products => {
+				if (products.length < productIds.length) {
+					throw  {
+						code: 404,
+						message: "Product not found"
+					}
 				}
-				let count = order.products.filter(orderProduct => product['productId'] == orderProduct['productId'])
-				if (count.length > 0) {
-					let ref_product = order.products.find(orderProduct => product['productId'] == orderProduct['productId'])
-					ref_product.quantity = ref_product.quantity + product.quantity
-				} else {
-					order.products.append(product)
+				outer_products = products
+				for(var i = 0; i< products.length; i++){
+					if (products[i].stock < productDict[products[i].productId]) {
+						throw  {
+							code: 412,
+							message: {
+								product: products[i].productId,
+								message: 'Stock unavailable, Order only how much is available',
+								stockAvailable: products[i].stock
+							}
+						}
+					}
 				}
-				
-			})
+				return products
+			}).then((products) => {
+				req.body.products.map(product => {
+					let count = order.products.filter(orderProduct => product['productId'] == orderProduct['productId'])
+					let mon_product = products.filter(orderProduct => product['productId'] == orderProduct['productId'])
+					if (count.length > 0) {
+						count[0].quantity = count[0].quantity + product.quantity
+						mon_product[0].stock = mon_product[0].stock - product.quantity
+					} else {
+						order.products.push(product)
+						mon_product[0].stock = mon_product[0].stock - product.quantity
+					}
+				})
+			products.map(product => product.save())
 			return order
-		}
-	).then(order => order.save().then(
-		res.status(200).json({
-			order,
-			request: {
-				type: 'GET',
-				url: 'http://localhost:3000/orders'
 			}
-		})))
+		).then(order => order.save().then(
+			res.status(200).json({
+				order,
+				request: {
+					type: 'GET',
+					url: 'http://localhost:3000/orders'
+				}
+			}))).catch(err => {
+			res.status(500).json(err)
+		})
+	}).catch(err => {
+		res.status(500).json(err)
+	})
+	
 }
