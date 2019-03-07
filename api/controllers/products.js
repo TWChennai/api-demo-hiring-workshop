@@ -64,7 +64,7 @@ exports.products_create_product = (req, res, next) => {
 exports.product_get_product = (req, res, next) => {
     const id = req.params.productId
     Product.find({productId: id})
-    .select('name price soldBy stock id')
+    .select('productId name price soldBy stock')
     .exec()
     .then(doc => {
         console.log(doc)
