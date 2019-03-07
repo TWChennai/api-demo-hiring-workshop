@@ -81,7 +81,7 @@
         }
       }
     },
-    "/products": {
+    "/products/": {
       "post": {
         "summary": "Create product",
         "description": "",
@@ -222,39 +222,36 @@
           {
             "name": "productId",
             "in": "path",
-            "description": "product that need to be updated",
+            "description": "Product that needs to be updated",
             "required": true,
             "type": "string"
           },
           {
             "in": "body",
             "name": "body",
-            "description": "Updated product object",
+            "description": "Properties of product to be updated, with values",
             "required": true,
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string"
-                  }
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "string"
+                }
+              },
+              "example": [
+                {
+                  "stock": 200
                 },
-                "example": [
-                  {
-                    "stock": 200
-                  },
-                  {
-                    "name": "TV"
-                  },
-                  {
-                    "price": 34000
-                  },
-                  {
-                    "soldBy": "Samsung"
-                  }
-                ]
-              }
+                {
+                  "name": "TV"
+                },
+                {
+                  "price": 34000
+                },
+                {
+                  "soldBy": "Samsung"
+                }
+              ]
             }
           }
         ],
@@ -271,7 +268,7 @@
         }
       }
     },
-    "/orders": {
+    "/orders/": {
       "get": {
         "summary": "Get all orders",
         "security": [
@@ -328,7 +325,7 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "id": {
+                      "productId": {
                         "type": "string",
                         "example": "productId"
                       },
@@ -540,7 +537,7 @@
         },
         "password": {
           "type": "string",
-          "example": "********"
+          "example": "password"
         }
       }
     },
@@ -575,7 +572,7 @@
     "Order": {
       "type": "object",
       "properties": {
-        "id": {
+        "orderId": {
           "type": "string"
         },
         "products": {
