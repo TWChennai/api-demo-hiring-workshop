@@ -182,7 +182,6 @@ exports.orders_update_order = (req, res, next) => {
 		}
 		return order[0]
 	}).then(order => {
-		let outer_products = []
 		Product.find({productId: productIds})
 			.select('name price soldBy stock productId')
 			.exec()
@@ -193,9 +192,13 @@ exports.orders_update_order = (req, res, next) => {
 						message: "Product not found"
 					}
 				}
-				outer_products = products
-				for(var i = 0; i< products.length; i++){
-					if (products[i].stock < productDict[products[i].productId]) {
+				for(let i = 0; i< products.length; i++){
+					let productInOrder = order.products.filter(orderProduct => products[i]['productId'].equals(orderProduct['productId']))
+					let orderProductQuantity = 0
+					if (productInOrder.length > 0) {
+						orderProductQuantity = productInOrder[0].quantity
+					}
+					if (products[i].stock + orderProductQuantity < productDict[products[i].productId]) {
 						throw  {
 							code: 412,
 							message: {
@@ -209,14 +212,14 @@ exports.orders_update_order = (req, res, next) => {
 				return products
 			}).then((products) => {
 				req.body.products.map(product => {
-					let count = order.products.filter(orderProduct => product['productId'] == orderProduct['productId'])
-					let mon_product = products.filter(orderProduct => product['productId'] == orderProduct['productId'])
-					if (count.length > 0) {
-						count[0].quantity = count[0].quantity + product.quantity
-						mon_product[0].stock = mon_product[0].stock - product.quantity
+					let productInOrder = order.products.filter(orderProduct => orderProduct['productId'].equals(product['productId']))
+					let masterProduct = products.filter(orderProduct => orderProduct['productId'].equals(product['productId']))
+					if (productInOrder.length > 0) {
+						masterProduct[0].stock = productInOrder[0].quantity + masterProduct[0].stock - product.quantity
+						productInOrder[0].quantity =  product.quantity
 					} else {
 						order.products.push(product)
-						mon_product[0].stock = mon_product[0].stock - product.quantity
+						masterProduct[0].stock = masterProduct[0].stock - product.quantity
 					}
 				})
 			products.map(product => product.save())

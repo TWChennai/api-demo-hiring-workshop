@@ -14,5 +14,5 @@ This is a simple nodejs app with mongodb.  Exposes API in the port 3000.
 
 Api documentation with swagger:
 ```
-http://localhost:3000//api-docs
+http://localhost:3000/api-docs
 ```
