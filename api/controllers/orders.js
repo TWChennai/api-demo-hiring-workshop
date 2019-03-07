@@ -3,14 +3,30 @@ const Product = require('../models/products')
 const mongoose = require('mongoose')
 
 exports.orders_get_all = (req, res, next) => {
-	Order.find({})
+	Order.aggregate([{
+			$lookup: {
+				from: "products",
+				localField: "products.productId",
+				foreignField: "productId",
+				as: "productDetails"
+			}
+		},
+			{
+				$project: {
+					"orderId": 1,
+					"productDetails.productId": 1,
+					"productDetails.name": 1,
+					"productDetails.price": 1,
+					"productDetails.soldBy": 1
+				}
+			}])
         .then(docs => {
             res.status(200).json({
                 count: docs.length,
                 orders: docs.map(doc => {
                     return {
 	                    orderId: doc.orderId,
-	                    products: doc.products,
+	                    products: doc.productDetails,
                         request: {
                             type: 'GET',
                             url: 'http://localhost:3000/orders/' + doc.orderId
