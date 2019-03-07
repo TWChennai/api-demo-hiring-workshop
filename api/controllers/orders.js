@@ -17,7 +17,8 @@ exports.orders_get_all = (req, res, next) => {
 					"productDetails.productId": 1,
 					"productDetails.name": 1,
 					"productDetails.price": 1,
-					"productDetails.soldBy": 1
+					"productDetails.soldBy": 1,
+					"quantity": 1
 				}
 			}])
         .then(docs => {
