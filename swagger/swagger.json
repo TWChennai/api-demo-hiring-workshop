@@ -32,8 +32,8 @@
           "201": {
             "description": "User created"
           },
-          "405": {
-            "description": "Invalid input"
+          "409": {
+            "description": "Mail already exists"
           }
         }
       }
@@ -75,8 +75,8 @@
               }
             }
           },
-          "405": {
-            "description": "Invalid input"
+          "401": {
+            "description": "Auth Failed"
           }
         }
       }
@@ -109,6 +109,9 @@
         "responses": {
           "201": {
             "description": "Product created"
+          },
+          "401": {
+            "description": "Auth Failed"
           }
         }
       },
@@ -130,11 +133,14 @@
                 "$ref": "#/definitions/Product"
               }
             }
+          },
+          "401": {
+            "description": "Auth Failed"
           }
         }
       }
     },
-    "/product/{productId}": {
+    "/products/{productId}": {
       "get": {
         "summary": "Get one product",
         "description": "",
@@ -164,6 +170,9 @@
               "$ref": "#/definitions/Product"
             }
           },
+          "401": {
+            "description": "Auth Failed"
+          },
           "404": {
             "description": "Product not found"
           }
@@ -190,6 +199,9 @@
         "responses": {
           "200": {
             "description": "Deleted"
+          },
+          "401": {
+            "description": "Auth Failed"
           },
           "404": {
             "description": "Product not found"
@@ -234,6 +246,12 @@
                   },
                   {
                     "name": "TV"
+                  },
+                  {
+                    "price": 34000
+                  },
+                  {
+                    "soldBy": "Samsung"
                   }
                 ]
               }
@@ -243,6 +261,9 @@
         "responses": {
           "200": {
             "description": "Updated"
+          },
+          "401": {
+            "description": "Auth Failed"
           },
           "404": {
             "description": "Product not found"
@@ -274,6 +295,9 @@
                 "$ref": "#/definitions/Order"
               }
             }
+          },
+          "401": {
+            "description": "Auth Failed"
           }
         }
       },
@@ -305,10 +329,12 @@
                     "type": "object",
                     "properties": {
                       "id": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "productId"
                       },
                       "quantity": {
-                        "type": "integer"
+                        "type": "integer",
+                        "example": 1
                       }
                     }
                   }
@@ -320,6 +346,29 @@
         "responses": {
           "201": {
             "description": "Order created"
+          },
+          "401": {
+            "description": "Auth Failed"
+          },
+          "412": {
+            "description": "Pre condition failed",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "product": {
+                  "type": "string",
+                  "example": "product1"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Stock unavailable, Order only how much is available"
+                },
+                "stockAvailable": {
+                  "type": "string",
+                  "example": 12
+                }
+              }
+            }
           }
         }
       }
@@ -351,8 +400,33 @@
           "200": {
             "description": "Order",
             "schema": {
-              "$ref": "#/definitions/Order"
+              "type": "object",
+              "properties": {
+                "orderId": {
+                  "type": "string",
+                  "example": "Order 1"
+                },
+                "products": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "quantity": {
+                        "type": "number",
+                        "example": 12
+                      },
+                      "productId": {
+                        "type": "string",
+                        "example": "Product 1"
+                      }
+                    }
+                  }
+                }
+              }
             }
+          },
+          "401": {
+            "description": "Auth Failed"
           }
         }
       },
@@ -377,6 +451,9 @@
         "responses": {
           "200": {
             "description": "Order deleted"
+          },
+          "401": {
+            "description": "Auth Failed"
           },
           "404": {
             "description": "Order not found"
@@ -416,11 +493,13 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "id": {
-                        "type": "string"
+                      "productId": {
+                        "type": "string",
+                        "example": "Product 1"
                       },
                       "quantity": {
-                        "type": "integer"
+                        "type": "integer",
+                        "example": 12
                       }
                     }
                   }
@@ -432,6 +511,9 @@
         "responses": {
           "200": {
             "description": "Order updated"
+          },
+          "401": {
+            "description": "Auth Failed"
           }
         }
       }
@@ -466,7 +548,9 @@
       "type": "object",
       "required": [
         "name",
-        "price"
+        "price",
+        "soldBy",
+        "stock"
       ],
       "properties": {
         "name": {
@@ -475,7 +559,16 @@
         },
         "price": {
           "type": "number",
-          "format": "float"
+          "format": "float",
+          "example": 35000
+        },
+        "soldBy": {
+          "type": "string",
+          "example": "Samsung"
+        },
+        "stock": {
+          "type": "number",
+          "example": 20
         }
       }
     },

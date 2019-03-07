@@ -111,18 +111,12 @@ exports.orders_get_all = (req, res, next) => {
 exports.orders_get_byId = (req, res, next) => {
 	Order.find({"orderId": new mongoose.Types.ObjectId(req.params.orderId)})
         .then(order => {
-            if (!order) {
+            if (order.length == 0) {
                 return res.status(404).json({
                     message: 'order not found'
                 })
             }
-            res.status(200).json({
-                order,
-                request: {
-                    type: 'GET',
-                    url: 'http://localhost:3000/orders'
-                }
-            })
+            res.status(200).json(order[0])
         })
         .catch(err => {
             res.status(500).json(err)
