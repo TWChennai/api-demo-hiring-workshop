@@ -18,7 +18,7 @@ exports.orders_get_all = (req, res, next) => {
 					"productDetails.name": 1,
 					"productDetails.price": 1,
 					"productDetails.soldBy": 1,
-					"quantity": 1
+					"productDetails.quantity": 1
 				}
 			}])
         .then(docs => {
@@ -130,7 +130,7 @@ exports.orders_get_byId = (req, res, next) => {
 					"productDetails.name": 1,
 					"productDetails.price": 1,
 					"productDetails.soldBy": 1,
-					"quantity": 1
+					"productDetails.quantity": 1
 				}
 			}])
         .then(order => {
