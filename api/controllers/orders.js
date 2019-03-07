@@ -3,31 +3,14 @@ const Product = require('../models/products')
 const mongoose = require('mongoose')
 
 exports.orders_get_all = (req, res, next) => {
-	Order.aggregate([{
-			$lookup: {
-				from: "products",
-				localField: "products.productId",
-				foreignField: "productId",
-				as: "productDetails"
-			}
-		},
-			{
-				$project: {
-					"orderId": 1,
-					"productDetails.productId": 1,
-					"productDetails.name": 1,
-					"productDetails.price": 1,
-					"productDetails.soldBy": 1,
-					"productDetails.quantity": 1
-				}
-			}])
+	Order.find({})
         .then(docs => {
             res.status(200).json({
                 count: docs.length,
                 orders: docs.map(doc => {
                     return {
 	                    orderId: doc.orderId,
-	                    products: doc.productDetails,
+	                    products: doc.products,
                         request: {
                             type: 'GET',
                             url: 'http://localhost:3000/orders/' + doc.orderId
@@ -110,29 +93,7 @@ exports.orders_get_all = (req, res, next) => {
     }
 
 exports.orders_get_byId = (req, res, next) => {
-	Order.aggregate([
-			{
-				$match: {"orderId": new mongoose.Types.ObjectId(req.params.orderId)}
-			},
-			{
-				$lookup: {
-					from: "products",
-					localField: "products.productId",
-					foreignField: "productId",
-					as: "productDetails"
-				}
-			},
-			{
-				$project: {
-					"_id": 0,
-					"orderId": 1,
-					"productDetails.productId": 1,
-					"productDetails.name": 1,
-					"productDetails.price": 1,
-					"productDetails.soldBy": 1,
-					"productDetails.quantity": 1
-				}
-			}])
+	Order.find({"orderId": new mongoose.Types.ObjectId(req.params.orderId)})
         .then(order => {
             if (!order) {
                 return res.status(404).json({
