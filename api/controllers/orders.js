@@ -44,7 +44,9 @@ exports.orders_get_all = (req, res, next) => {
 	    let productIds = []
 	    let productDict = {}
 	    req.body.products.map( product => {
-		    productIds.push(product.productId)
+		    if( !productIds.includes(product.productId)) {
+			    productIds.push(product.productId)
+		    }
 		    productDict[product.productId] = product.quantity
 	    });
 	
@@ -126,7 +128,8 @@ exports.orders_get_byId = (req, res, next) => {
 					"productDetails.productId": 1,
 					"productDetails.name": 1,
 					"productDetails.price": 1,
-					"productDetails.soldBy": 1
+					"productDetails.soldBy": 1,
+					"quantity": 1
 				}
 			}])
         .then(order => {
@@ -170,7 +173,9 @@ exports.orders_update_order = (req, res, next) => {
 	let productIds = []
 	let productDict = {}
 	req.body.products.map(product => {
-		productIds.push(product.productId)
+		if( !productIds.includes(product.productId)) {
+			productIds.push(product.productId)
+		}
 		productDict[product.productId] = product.quantity
 	});
 	
