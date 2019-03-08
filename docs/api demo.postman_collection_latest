@@ -1,0 +1,389 @@
+{
+	"info": {
+		"_postman_id": "038308bd-6d41-4bad-a729-7f4c78c3e152",
+		"name": "api demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"email\":\"kkavithag@gmail.com\",\n\t\"password\":\"password\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create product",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtrYXZpdGhhQGdtYWlsLmNvbSIsInVzZXJJZCI6IjVjNzU2MmY3YmQyYjA0ZjEwMmZhOTdhZSIsImlhdCI6MTU1MTQzMzczOCwiZXhwIjoxNTUxNTQxNzM4fQ.GFc719h_djLS5iGr5ZtBZwvTV-soc3IbmPwJT4YjSNM"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"cooker\",\n\t\"price\":400,\n\t\"soldBy\":\"Samsung\",\n\t\"stock\": 20\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/products/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtrYXZpdGhhZ0BnbWFpbC5jb20iLCJ1c2VySWQiOiI1YzdlNTlhNzhjZGY1Y2UzZTkwNDcxN2QiLCJpYXQiOjE1NTE4MDIyNzAsImV4cCI6MTU1MTgwNTg3MH0.1E7eEv0zIzmBShbFOaxU0BLmy_F5ZoxAMxgOmqaS30U"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"products\":[{\"productId\":\"5c7e59dfdca74ee40efe8326\", \"quantity\": 10}]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/orders/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"orders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all orders",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtrYXZpdGhhZ0BnbWFpbC5jb20iLCJ1c2VySWQiOiI1YzdlNTlhNzhjZGY1Y2UzZTkwNDcxN2QiLCJpYXQiOjE1NTE4NDcwMTEsImV4cCI6MTU1MTg1MDYxMX0.dxlvuz_kHD_Fa_3T9tuC4zhpWhj4rqi2NUzQcvPZxm0"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/orders/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"orders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all products",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtrYXZpdGhhZ0BnbWFpbC5jb20iLCJ1c2VySWQiOiI1YzdkMTlkODc1YTMyYjAwMzBmNWM2ZjgiLCJpYXQiOjE1NTE3MDI0OTEsImV4cCI6MTU1MTcwNjA5MX0.xGEFqfylMNzSx1HBQoFGx8M3JNUP_bCkalHzalMnVAY"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/products/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get one product",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtrYXZpdGhhZ0BnbWFpbC5jb20iLCJ1c2VySWQiOiI1YzdkMTlkODc1YTMyYjAwMzBmNWM2ZjgiLCJpYXQiOjE1NTE3MDI0OTEsImV4cCI6MTU1MTcwNjA5MX0.xGEFqfylMNzSx1HBQoFGx8M3JNUP_bCkalHzalMnVAY"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/products/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update order",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtrYXZpdGhhQGdtYWlsLmNvbSIsInVzZXJJZCI6IjVjNzU2MmY3YmQyYjA0ZjEwMmZhOTdhZSIsImlhdCI6MTU1MTQyNDI5OSwiZXhwIjoxNTUxNDI3ODk5fQ.cu6CjAzY7b6FM3_QABl7sTb0HGN56b-gOYWA38MTi0E"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"products\":[{\"id\": \"5c78db9235e7f376d8435118\", \"quantity\": 3}]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/orders/5c78dba835e7f376d8435119",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"orders",
+						"5c78dba835e7f376d8435119"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete an order",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtrYXZpdGhhQGdtYWlsLmNvbSIsInVzZXJJZCI6IjVjNzU2MmY3YmQyYjA0ZjEwMmZhOTdhZSIsImlhdCI6MTU1MTQyNDI5OSwiZXhwIjoxNTUxNDI3ODk5fQ.cu6CjAzY7b6FM3_QABl7sTb0HGN56b-gOYWA38MTi0E"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"products\":[{\"id\": \"5c78db9235e7f376d8435118\", \"quantity\": 3}]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/orders/5c78dba835e7f376d8435119",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"orders",
+						"5c78dba835e7f376d8435119"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete a product",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtrYXZpdGhhQGdtYWlsLmNvbSIsInVzZXJJZCI6IjVjNzU2MmY3YmQyYjA0ZjEwMmZhOTdhZSIsImlhdCI6MTU1MTQyNDI5OSwiZXhwIjoxNTUxNDI3ODk5fQ.cu6CjAzY7b6FM3_QABl7sTb0HGN56b-gOYWA38MTi0E"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"products\":[{\"id\": \"5c78db9235e7f376d8435118\", \"quantity\": 3}]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/orders/5c78dba835e7f376d8435119",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"orders",
+						"5c78dba835e7f376d8435119"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get one order ",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtrYXZpdGhhZ0BnbWFpbC5jb20iLCJ1c2VySWQiOiI1YzdkMWE5NThjNGQxZmIwMjE0YzU4YjQiLCJpYXQiOjE1NTE3MDI3OTJ9.TChmVtqgXWXx9yTZNMCVLF_iaGBTvOH7M_yzPx321oM"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/orders/5c7d21475d1fc7b1a4a62052",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"orders",
+						"5c7d21475d1fc7b1a4a62052"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign up",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"email\":\"kkavithag@gmail.com\",\n\t\"password\":\"password\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/user/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update product",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtrYXZpdGhhZ0BnbWFpbC5jb20iLCJ1c2VySWQiOiI1YzdlNTlhNzhjZGY1Y2UzZTkwNDcxN2QiLCJpYXQiOjE1NTE4NDY4NzUsImV4cCI6MTU1MTg1MDQ3NX0.hCbwTdyKxUMs_S38GjprINUgyn8jABIC5BcVD3TT25c"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\"stock\":200}, {\"price\":40000}]\n\n"
+				},
+				"url": {
+					"raw": "http://localhost:3000/products/5c7e59dfdca74ee40efe8326",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"products",
+						"5c7e59dfdca74ee40efe8326"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
