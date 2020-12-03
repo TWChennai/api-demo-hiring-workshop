@@ -5,7 +5,6 @@
     "version": "1.0.0",
     "title": "Retail Store"
   },
-  "host": "localhost:3000",
   "basePath": "/",
   "paths": {
     "/user/signup": {
