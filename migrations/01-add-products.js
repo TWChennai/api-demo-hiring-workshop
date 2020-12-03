@@ -3,7 +3,8 @@ var mongodb = require('mongoose')
 const Product = require('../api/models/products')
 
 module.exports.up = function (next) {
-	mongodb.connect('mongodb://mongo/api_demo', {useNewUrlParser: true})
+	const mongoDbURL = process.env.MONGODB_URL || 'mongodb://mongo/api_demo'
+	mongodb.connect(mongoDbURL, { useNewUrlParser: true })
 		.then(() => {
 			let products = [{
 				"productId": new mongodb.Types.ObjectId(),

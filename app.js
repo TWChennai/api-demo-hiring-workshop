@@ -13,7 +13,9 @@ const swaggerDocument = require('./swagger/swagger.json');
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-mongoose.connect('mongodb://mongo/api_demo', { useNewUrlParser: true } )
+const mongoDbURL = process.env.MONGODB_URL || 'mongodb://mongo/api_demo'
+
+mongoose.connect(mongoDbURL, { useNewUrlParser: true } )
 
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: false}))
