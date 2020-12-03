@@ -16,3 +16,6 @@ Api documentation with swagger:
 ```
 http://localhost:3000/api-docs
 ```
+App hosted in heroku:
+
+```https://apiworkshopdemo.herokuapp.com/api-docs```
